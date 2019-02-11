@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     
-    <a class="button is-danger" @click='login()'>Login With Google</a>
+    
+    
   </div>
 </template>
 

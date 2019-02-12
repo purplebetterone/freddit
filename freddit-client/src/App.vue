@@ -13,7 +13,7 @@
         <div class="field is-grouped">
           <p class="control" v-if="!isLoggedIn">
             
-            <a class="buton is Danger" @click="login()">
+            <a class="button is-white" @click="login()">
               Login with Google
             </a>
           </p>
@@ -23,7 +23,7 @@
               <figure class="image is-32x32">
               <img :src="user.image">
               </figure>
-              <figcaption>{{user.name}}</figcaption>
+              <figcaption class="figcaption">{{user.name}}</figcaption>
             </span>
             
             <a class="button is-primary" @click="logout()">
@@ -65,6 +65,12 @@ export default {
   display:flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+.figcaption {
+  font-size: 0.7rem;
 }
 
 </style>

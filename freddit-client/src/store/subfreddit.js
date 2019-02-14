@@ -28,7 +28,7 @@ const actions = {
     //await posts.doc(post.id).set(post);
     try {
     const created =   await posts.doc(post.id).set(post);
-    console.log(created);
+    //console.log(created);
     } catch (error) {
       console.error(error);
     }

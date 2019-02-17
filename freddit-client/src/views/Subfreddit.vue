@@ -8,14 +8,14 @@
       </b-field>
       <b-field label="Description">
       <b-input type="textarea" v-model="post.description"></b-input>
-      </b-field> 
+      </b-field>
       <b-field label="URL">
       <b-input v-model="post.URL" type="url"></b-input>
       </b-field>
       <button class="button is-success">Add Post</button>
   </form>
 
-  <div class="posts columns">
+  <div class="posts columns  is-multiline">
 
     <div class="card column is-4" v-for="post in posts" :key="post.id">
   <div class="card-image"  v-if="isImage(post.URL)">
@@ -49,54 +49,60 @@
 
   </div>
 
-  
 
   </section>
-    
+
 </template>
 
 <script>
 
 
 import { mapState, mapActions, mapGetters } from 'vuex';
+
 export default {
-    data: () => ({
-      showForm: false,
-      post: {
-        title: '',
-        description: '',
-        URL: '',
+  data: () => ({
+    showForm: false,
+    post: {
+      title: '',
+      description: '',
+      URL: '',
+    },
+  }),
+  mounted() {
+    // this.init();
+    this.initSubfreddit(this.$route.params.name);
+  },
+  watch: {
+    '$route.params.name': function () {
+      this.initSubfreddit(this.$route.params.name);
+    },
+    subfreddit() {
+      if (this.subfreddit.id) {
+        this.initPosts(this.subfreddit.id);
       }
-    }),
-    mounted(){
-        //this.init();
-        this.initSubfreddit(this.$route.params.name);
     },
-    watch: {
-      '$route.params.name'() {
-        this.initSubfreddit(this.$route.params.name);
-      },
-      subfreddit() {
-        if (this.subfreddit.id) {
-          this.initPosts(this.subfreddit.id);
-        }
+  },
+  computed: {
+    ...mapState('subfreddit', ['posts']),
+    ...mapGetters('subfreddit', ['subfreddit']),
+  },
+  methods: {
+    isImage(url) {
+      return url.match(/(png|jpg|jpeg|gif)$/);
+    },
+    ...mapActions('subfreddit', ['createPost', 'initSubfreddit', 'initPosts']),
+    async onCreatePost() {
+      if (this.post.title && (this.post.description || this.post.URL)) {
+         this.createPost(this.post);
+          this.post = {
+            title: '',
+            description: '',
+            URL: '',
+            };
+            this.showForm = false;
       }
     },
-    computed: {
-      ...mapState('subfreddit', ['posts']),
-      ...mapGetters('subfreddit', ['subfreddit'])
-    },
-    methods: {
-      isImage(url){
-        return url.match(/(png|jpg|jpeg|gif)$/)
-      },
-     ...mapActions('subfreddit', ['createPost', 'initSubfreddit', 'initPosts']),
-     async onCreatePost() {
-       if (this.post.title && (this.post.description || this.post.URL)) {
-         await this.createPost(this.post);
-       }
-     }
-  }, 
+  },
 };
 </script>
 

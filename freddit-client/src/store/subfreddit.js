@@ -11,8 +11,8 @@ const state = {
 };
 
 const getters = {
-  subfreddit: (state) => state.subfreddits[0] ? state.subfreddits[0] : {},
-}
+  subfreddit: state => (state.subfreddits[0] ? state.subfreddits[0] : {}),
+};
 
 const actions = {
   async createPost({ getters }, post) {
@@ -20,15 +20,15 @@ const actions = {
     post.id = result.id;
     post.subfreddit_id = getters.subfreddit.id;
     post.user_id = firebase.auth().currentUser.uid;
-    post.created_at = firebase.firestore.
-       FieldValue.serverTimestamp();
-    post.updated_at = firebase.firestore.
-       FieldValue.serverTimestamp();
-    //console.log(post);
-    //await posts.doc(post.id).set(post);
+    post.created_at = firebase.firestore
+      .FieldValue.serverTimestamp();
+    post.updated_at = firebase.firestore
+      .FieldValue.serverTimestamp();
+    // console.log(post);
+    // await posts.doc(post.id).set(post);
     try {
-    const created =   await posts.doc(post.id).set(post);
-    //console.log(created);
+      const created = await posts.doc(post.id).set(post);
+    // console.log(created);
     } catch (error) {
       console.error(error);
     }

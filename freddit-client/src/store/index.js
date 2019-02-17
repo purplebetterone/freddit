@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {
-  firebaseMutations
+  firebaseMutations,
 } from 'vuexfire';
 
 import auth from './auth';

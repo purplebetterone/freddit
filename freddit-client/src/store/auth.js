@@ -8,13 +8,13 @@ const state = {
 
 const mutations = {
   setUser(state, user) {
-    if(user){
-     state.user = user;
-     state.isLoggedIn = true;
+    if (user) {
+      state.user = user;
+      state.isLoggedIn = true;
     } else {
       state.user = {};
       state.isLoggedIn = false;
-    }  
+    }
   },
 };
 
@@ -24,11 +24,11 @@ const actions = {
     await firebase.auth().signInWithPopup(provider);
   },
   async logout() {
-    firebase.auth().signOut()
+    firebase.auth().signOut();
   },
 };
-    
-    export default {
+
+export default {
   namespaced: true,
   state,
   mutations,

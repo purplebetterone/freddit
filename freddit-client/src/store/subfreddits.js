@@ -6,13 +6,13 @@ const state = {
 };
 
 const actions = {
-  init: firebaseAction(({ bindFirebaseRef}) => {
+  init: firebaseAction(({ bindFirebaseRef }) => {
     bindFirebaseRef('subfreddits', db.collection('subfreddits'));
-    }),
+  }),
 };
 
 export default {
-    namespaced: true,
-    state,
-    actions,
+  namespaced: true,
+  state,
+  actions,
 };

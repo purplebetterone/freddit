@@ -7,6 +7,7 @@ import {
 import auth from './auth';
 import subfreddits from './subfreddits';
 import subfreddit from './subfreddit';
+import users from './users';
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     auth,
     subfreddits,
     subfreddit,
+    users,
   },
 });

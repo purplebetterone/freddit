@@ -16,8 +16,8 @@
   </form>
 
   <div class="posts columns  is-multiline">
-
-    <div class="card column is-4" v-for="post in posts" :key="post.id">
+    <div class="column is-4" v-for="post in posts" :key="post.id">
+      <div class="card" >
   <div class="card-image"  v-if="isImage(post.URL)">
     <figure>
       <img :src="post.URL" alt="Placeholder image">
@@ -27,15 +27,16 @@
     <div class="media">
       <div class="media-left">
         <figure class="image is-48x48">
-          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+          <img :src="loadedUsersById[post.user_id].image" alt="placeholder image">
         </figure>
       </div>
       <div class="media-content">
         <p class="title is-4" v-if="!post.URL">{{post.title}}</p>
         <p class="title is-4" v-if="post.URL"><a :href="post.URL" target="_blank">
           {{post.title}}</a></p>
-        <p class="subtitle is-6">@johnsmith</p>
+        <p class="subtitle is-6">{{loadedUsersById[post.user_id].name}}</p>
       </div>
+    </div>
     </div>
 
     <div class="content">
@@ -70,6 +71,7 @@ export default {
   }),
   mounted() {
     // this.init();
+    this.initUsers();
     this.initSubfreddit(this.$route.params.name);
   },
   watch: {
@@ -84,13 +86,28 @@ export default {
   },
   computed: {
     ...mapState('subfreddit', ['posts']),
-    ...mapGetters('subfreddit', ['subfreddit']),
+    ...mapState('auth', ['isLoggedIn', 'user']),
+    ...mapGetters({
+      subfreddit: 'subfreddit/subfreddit',
+      usersById: 'users/usersById',  
+    }),
+    loadedUsersById(){
+      return this.posts.reduce((byId, post)=> {
+        byId[post.user_id] = this.usersById[post.user_id] || {
+          name: 'Loading...',
+          image: 'https://bulma.io/images/placeholders/48X48.png'
+        };
+        return byId;
+      }, {})
+    }
   },
   methods: {
     isImage(url) {
       return url.match(/(png|jpg|jpeg|gif)$/);
     },
     ...mapActions('subfreddit', ['createPost', 'initSubfreddit', 'initPosts']),
+    ...mapActions('users', {initUsers: 'init'}),
+
     async onCreatePost() {
       if (this.post.title && (this.post.description || this.post.URL)) {
          this.createPost(this.post);
@@ -109,5 +126,13 @@ export default {
 <style>
 .posts {
   margin-top: 2em;
+}
+.card{
+  height: 100%;
+  margin: 1%;
+  border-radius: 5px;
+}
+.card img {
+  border-radius: 5px;
 }
 </style>

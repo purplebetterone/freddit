@@ -6,12 +6,12 @@ const state = {
 };
 
 const getters = {
-	usersById(sate){
-		return state.users.reduce((byId, user) => {
-			byId[user.id] = user;
-			return byId;
-		}, {});
-	},
+  usersById(state) {
+    return state.users.reduce((byId, user) => {
+      byId[user.id] = user;
+      return byId;
+    }, {});
+  },
 };
 
 const actions = {

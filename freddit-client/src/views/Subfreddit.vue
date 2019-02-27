@@ -48,6 +48,20 @@
             {{post.description}}
             <br>
             <time>{{getCreated(index)}}</time>
+            <br>
+            <button @click = "deletePost(post.id)"
+               v-if="user && user.id == post.user_id"
+               class="button is-danger">Delete Post</button>
+            <!--
+            <router-link :to="{
+              name: 'post',
+              params: {
+                name: $route.params.name,
+                post_id: post.id
+              }
+            }"
+             class="button is-primary">View Post</router-link>
+             -->
           </div>
         </div>
       </div>
@@ -94,7 +108,7 @@ export default {
       return this.posts.reduce((byId, post) => {
         byId[post.user_id] = this.usersById[post.user_id] || {
           name: 'Loading...',
-          image: 'https://bulma.io/images/placeholders/48X48.png',
+          //image: 'https://bulma.io/images/placeholders/48X48.png',
         };
         return byId;
       }, {});
@@ -111,7 +125,7 @@ export default {
     isImage(url) {
       return url.match(/(png|jpg|jpeg|gif)$/);
     },
-    ...mapActions('subfreddit', ['createPost', 'initSubfreddit', 'initPosts']),
+    ...mapActions('subfreddit', ['createPost', 'initSubfreddit', 'initPosts', 'deletePost']),
     ...mapActions('users', { initUsers: 'init' }),
 
     async onCreatePost() {

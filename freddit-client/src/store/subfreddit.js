@@ -33,6 +33,9 @@ const actions = {
       console.error(error);
     }
   },
+  async deletePost(_, post_id){
+    await posts.doc(post_id).delete()
+  },
   initSubfreddit: firebaseAction(({ bindFirebaseRef }, name) => {
     bindFirebaseRef('subfreddits', db.collection('subfreddits').where('name', '==', name));
   }),
